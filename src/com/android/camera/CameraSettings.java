@@ -497,6 +497,20 @@ public class CameraSettings {
         if (CamcorderProfile.hasProfile(cameraId, CamcorderProfile.QUALITY_480P)) {
             supported.add(Integer.toString(CamcorderProfile.QUALITY_480P));
         }
+        // psw0523 add
+        if (CamcorderProfile.hasProfile(cameraId, CamcorderProfile.QUALITY_UXGA)) {
+            supported.add(Integer.toString(CamcorderProfile.QUALITY_UXGA));
+        }
+        if (CamcorderProfile.hasProfile(cameraId, CamcorderProfile.QUALITY_VGA)) {
+            supported.add(Integer.toString(CamcorderProfile.QUALITY_VGA));
+        }
+        if (CamcorderProfile.hasProfile(cameraId, CamcorderProfile.QUALITY_SVGA)) {
+            supported.add(Integer.toString(CamcorderProfile.QUALITY_SVGA));
+        }
+        if (CamcorderProfile.hasProfile(cameraId, CamcorderProfile.QUALITY_CIF)) {
+            supported.add(Integer.toString(CamcorderProfile.QUALITY_CIF));
+        }
+        // end of psw0523
         return supported;
     }
 }

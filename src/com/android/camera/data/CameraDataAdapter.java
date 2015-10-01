@@ -242,6 +242,12 @@ public class CameraDataAdapter implements LocalDataAdapter {
         // Since this function is mostly for adding the newest data,
         // a simple linear search should yield the best performance over a
         // binary search.
+        // psw0523 add for data is null
+        if (data == null) {
+            Log.e(TAG, "data is null, return!!!");
+            return;
+        }
+        // end psw0523
         int pos = 0;
         Comparator<LocalData> comp = new LocalData.NewestFirstComparator();
         for (; pos < mImages.size()

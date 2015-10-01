@@ -243,6 +243,11 @@
     <string name="pref_video_quality_entry_high">High</string>
     <!-- Video quality setting entry. Videos will be recorded in the lowest quality available on the device. [CHAR LIMIT=24] -->
     <string name="pref_video_quality_entry_low">Low</string>
+    <!-- psw0523 add Video quality setting entry for UXGA 1600x1200 -->
+    <string name="pref_video_quality_entry_uxga" translatable="false">UXGA(1600x1200)</string>
+    <string name="pref_video_quality_entry_svga" translatable="false">SVGA(800x600)</string>
+    <string name="pref_video_quality_entry_vga" translatable="false">VGA(640x480)</string>
+    <string name="pref_video_quality_entry_cif" translatable="false">CIF(352x288)</string>
 
     <!-- Describes the preference dialog for choosing interval between frame capture for
     time lapse recording. Appears at top of the dialog. [CHAR LIMIT=30] -->

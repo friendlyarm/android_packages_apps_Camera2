@@ -600,26 +600,32 @@ public class VideoModule implements CameraModule,
         if (mCameraDevice == null) {
             return;
         }
-        mParameters = mCameraDevice.getParameters();
-        if (mParameters.getSupportedVideoSizes() == null) {
-            mDesiredPreviewWidth = mProfile.videoFrameWidth;
-            mDesiredPreviewHeight = mProfile.videoFrameHeight;
-        } else { // Driver supports separates outputs for preview and video.
-            List<Size> sizes = mParameters.getSupportedPreviewSizes();
-            Size preferred = mParameters.getPreferredPreviewSizeForVideo();
-            int product = preferred.width * preferred.height;
-            Iterator<Size> it = sizes.iterator();
-            // Remove the preview sizes that are not preferred.
-            while (it.hasNext()) {
-                Size size = it.next();
-                if (size.width * size.height > product) {
-                    it.remove();
+        // psw0523 fix
+        if (false) {
+            mParameters = mCameraDevice.getParameters();
+            if (mParameters.getSupportedVideoSizes() == null) {
+                mDesiredPreviewWidth = mProfile.videoFrameWidth;
+                mDesiredPreviewHeight = mProfile.videoFrameHeight;
+            } else { // Driver supports separates outputs for preview and video.
+                List<Size> sizes = mParameters.getSupportedPreviewSizes();
+                Size preferred = mParameters.getPreferredPreviewSizeForVideo();
+                int product = preferred.width * preferred.height;
+                Iterator<Size> it = sizes.iterator();
+                // Remove the preview sizes that are not preferred.
+                while (it.hasNext()) {
+                    Size size = it.next();
+                    if (size.width * size.height > product) {
+                        it.remove();
+                    }
                 }
+                Size optimalSize = CameraUtil.getOptimalPreviewSize(mActivity, sizes,
+                        (double) mProfile.videoFrameWidth / mProfile.videoFrameHeight);
+                mDesiredPreviewWidth = optimalSize.width;
+                mDesiredPreviewHeight = optimalSize.height;
             }
-            Size optimalSize = CameraUtil.getOptimalPreviewSize(mActivity, sizes,
-                    (double) mProfile.videoFrameWidth / mProfile.videoFrameHeight);
-            mDesiredPreviewWidth = optimalSize.width;
-            mDesiredPreviewHeight = optimalSize.height;
+        } else {
+             mDesiredPreviewWidth = mProfile.videoFrameWidth;
+             mDesiredPreviewHeight = mProfile.videoFrameHeight;
         }
         mUI.setPreviewSize(mDesiredPreviewWidth, mDesiredPreviewHeight);
         Log.v(TAG, "mDesiredPreviewWidth=" + mDesiredPreviewWidth +
@@ -973,7 +979,12 @@ public class VideoModule implements CameraModule,
             mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         }
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        mMediaRecorder.setProfile(mProfile);
+        // psw0523 add for camera timelapse recording mediarecorder exception
+        try {
+            mMediaRecorder.setProfile(mProfile);
+        } catch (java.lang.IllegalStateException e){
+            Log.e(TAG, "failed to mediaRecorder.setProfile() " + e.toString());
+        }
         mMediaRecorder.setMaxDuration(mMaxVideoDurationInMs);
         if (mCaptureTimeLapse) {
             double fps = 1000 / (double) mTimeBetweenTimeLapseFrameCaptureMs;

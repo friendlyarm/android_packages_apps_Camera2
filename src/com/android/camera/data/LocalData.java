@@ -26,6 +26,10 @@ import com.android.camera.ui.FilmStripView;
 
 import java.util.Comparator;
 
+// psw0523 debugging
+import android.util.Log;
+// end psw0523
+
 /**
  * An abstract interface that represents the local media data. Also implements
  * Comparable interface so we can sort in DataAdapter.
@@ -183,6 +187,16 @@ public interface LocalData extends FilmStripView.ImageData {
 
         @Override
         public int compare(LocalData d1, LocalData d2) {
+            // psw0523 add for debugging
+            if (d1 == null) {
+                Log.e(TAG, "d1 is NULL!!!");
+                return -1;
+            }
+            if (d2 == null) {
+                Log.e(TAG, "d2 is NULL!!!");
+                return -1;
+            }
+            // end psw0523
             int cmp = compareDate(d1.getDateTaken(), d2.getDateTaken());
             if (cmp == 0) {
                 cmp = compareDate(d1.getDateModified(), d2.getDateModified());
